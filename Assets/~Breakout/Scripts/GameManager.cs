@@ -9,7 +9,13 @@ namespace Breakout
 
         public int width = 20;
         public int height = 20;
+        public Vector2 spacing = new Vector2(25f, 10f);
+        public Vector2 offset = new Vector2(-25f, 0f);
         public GameObject[] blockPrefabs;
+        [Header("Debug")]
+        public bool isDebugging = false;
+
+        private GameObject[,] spawnedBlocks;
 
         
         // Use this for initialization
@@ -43,6 +49,9 @@ namespace Breakout
 
         void GenerateBlocks()
         {
+            // 
+            spawnedBlocks = new GameObject[width, height];
+
             // Loop through the width
             for (int x = 0; x < width; x++)
             {
@@ -52,15 +61,43 @@ namespace Breakout
                     GameObject block = GetRandomBlock();
 
                     // Set the new position
-                    Vector3 pos = new Vector3(x, y, 0);
+                    Vector3 pos = new Vector3(x * spacing.x, y * spacing.y, 0);
                     block.transform.position = pos;
+
+                    // Add spawned blocks to array
+                    spawnedBlocks[x, y] = block;
+                }
+            }
+        }
+
+        void UpdateBlocks()
+        {
+            // Loop through entire 2D array
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    // Update possies
+                    GameObject currentBlock = spawnedBlocks[x, y];
+
+                    // Create a new possie
+                    Vector2 pos = new Vector2(x * spacing.x, y * spacing.y);
+
+                    // Add and offset to pos
+                    pos += offset;
+
+                    // Set currentBlock's position to the new pos
+                    currentBlock.transform.position = pos;
                 }
             }
         }
         // Update is called once per frame
         void Update()
         {
-
+            if (isDebugging)
+            {
+                UpdateBlocks();
+            }
         }
     }
 }

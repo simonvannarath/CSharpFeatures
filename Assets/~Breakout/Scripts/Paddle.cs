@@ -7,9 +7,11 @@ namespace Breakout
 {
     public class Paddle : MonoBehaviour
     {
+        public bool isFired = false;
         public float movementSpeed = 20f;   // Speed the paddle moves
         public Ball currentBall;            // Ball that should be attatched to the Paddle as as child
         public Vector2[] directions = new Vector2[] // List of directions for the ball to choose from
+
         {
             new Vector2 (-0.5f, 0.5f),
             new Vector2 (0.5f, 0.5f)
@@ -39,13 +41,19 @@ namespace Breakout
 
             // Fire off ball in randomDirection
             currentBall.Fire(randomDir);
+
+            // Set isFired to true
+            isFired = true;
         }
 
-        void CheckInput ()
+        void CheckInput()
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                Fire();
+                if (isFired == false)
+                {
+                    Fire();
+                }
             }
         }
 
@@ -67,5 +75,4 @@ namespace Breakout
             transform.position += force;
         }
     }
-
 }

@@ -1,26 +1,36 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Breakout
 {
     public class GameManager : MonoBehaviour
     {
 
-        public int width = 20;
-        public int height = 20;
-        public Vector2 spacing = new Vector2(25f, 10f);
-        public Vector2 offset = new Vector2(-25f, 0f);
+        public int width = 15;
+        public int height = 15;
+        public int blockCount;
+        public int score;
+        public Vector2 spacing = new Vector2(4f, 1.1f);
+        public Vector2 offset = new Vector2(-40f, 10f);
         public GameObject[] blockPrefabs;
+        public float scrW, scrH;
+
+        private float ballPos;
+
         [Header("Debug")]
         public bool isDebugging = false;
-
         private GameObject[,] spawnedBlocks;
 
         
         // Use this for initialization
         void Start()
         {
+            scrW = Screen.width / 16;
+            scrH = Screen.height / 9;
+            score = 0;
+            blockCount = width * height;
             GenerateBlocks();
         }
 
@@ -91,12 +101,64 @@ namespace Breakout
                 }
             }
         }
+
+        void CheckBlockCount()
+        {
+            if (blockCount <= 0)
+            {
+                Win();
+            }
+        }
+
+        public void AddPoints(int amount) // Score increases per block type amount
+        {
+            score = score + amount;
+        }
+
+        public void CountDown(int amount)
+        {
+            blockCount = blockCount - amount;
+        }
+        
+        public void Win()
+        {
+            SceneManager.LoadScene("Win");    
+        }
+        
+        // Reset game if ball leaves area
+        
+        public void ResetGame()
+        {
+            SceneManager.LoadScene("Breakout");
+        }
+        
+        /*
+        ** OR **
+        if collide with bottom collider
+        restart scene
+
+        */
+
+
+        // GUI Section
+        private void OnGUI()
+        {
+            GUI.Box(new Rect(1 * scrW, 0.25f * scrH, 0.5f * scrW, 0.5f * scrH), score.ToString()); // score on top
+        }
+
+
+        
+
         // Update is called once per frame
         void Update()
         {
+            CheckBlockCount();
+
             if (isDebugging)
             {
                 UpdateBlocks();
+                // blockCount = width * height;
+                // Debug.Log("Block count is: " + blockCount.ToString());
             }
         }
     }

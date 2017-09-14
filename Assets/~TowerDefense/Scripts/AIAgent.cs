@@ -4,7 +4,7 @@ using UnityEngine;
 
 using UnityEngine.AI;
 
-namespace TownerDefense
+namespace TowerDefense
 {
     [RequireComponent(typeof(NavMeshAgent))]
 

@@ -10,10 +10,19 @@ namespace Inheritance
         public float impactForce = 10f;
         public float knockback = 10f;
 
-        public override void Attack()
+        public GameObject dashParticles;
+
+        protected override void Attack()
+        {
+            
+        }
+
+        public void Charge()
         {
 
         }
+
+
     }
 
 }

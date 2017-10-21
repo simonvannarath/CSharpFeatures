@@ -53,6 +53,7 @@ namespace TowerDefense
 
         Enemy GetClosestEnemy()
         {
+            enemies = RemoveAllNulls(enemies);
             Enemy closest = null;                               // LET closest = null
             float minDistance = float.MaxValue;                 // LET minDistrance = float.MaxValue
 
@@ -76,6 +77,20 @@ namespace TowerDefense
             {
                 cannon.Fire(closest);                           // CALL cannon.Fire() and pass closest as argument
             }
+        }
+
+        List<Enemy> RemoveAllNulls(List<Enemy> listWithNulls)
+        {
+            List<Enemy> listWithoutNulls = new List<Enemy>();   // LET listWithoutNulls = new List
+
+            foreach(Enemy enemies in listWithNulls)
+            {
+                if (enemies != null)
+                {
+                    listWithoutNulls.Add(enemies);
+                }
+            }
+            return listWithoutNulls;                            // RETURN listWithoutNulls
         }
     }
 

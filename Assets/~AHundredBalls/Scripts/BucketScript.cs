@@ -10,7 +10,6 @@ namespace AHundredBalls
         public float movementSpeed = 10.0f;
         
         private GameManager gameManager;
-        private SpawnerScript spawnerScript;
         private Rigidbody2D rigid2D;
         private Renderer[] renderers;
 

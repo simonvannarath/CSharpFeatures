@@ -29,7 +29,7 @@ namespace MOBA
             selectionPoint = g.transform;
         }
 
-        private void Update()
+        void Update()
         {
             // Is mouse button down?
             if (Input.GetMouseButtonDown(0))
@@ -56,11 +56,20 @@ namespace MOBA
         {
             foreach (var agent in agentsToDirect)
             {
+                // Seek
                 Seek s = agent.GetComponent<Seek>();
                 // Is there a seek component on the agent?
                 if (s != null)
                 {
                     s.target = target; // Assign target
+                }
+
+                // Path Following
+                PathFollowing p = agent.GetComponent<PathFollowing>();
+                // Is PathFollowing attached to agent?
+                if (p != null)
+                {
+                    p.target = target; // Assign target to PathFollowing component on agent
                 }
             }
         }
